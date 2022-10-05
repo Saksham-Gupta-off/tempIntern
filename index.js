@@ -1,101 +1,95 @@
-// MERN = Mongo + Express + React + Node
+// import express, { json } from 'express'
+// import cors from 'cors'
+// import { connect } from 'mongoose'
+// import User from './models/user.model'
+// import { sign, verify } from 'jsonwebtoken'
+// import { hash, compare } from 'bcryptjs'
 
-// Development = Node.js server + React server
+// const app = express()
+// app.use(cors())
+// app.use(json())
 
-// MEN
+// connect("mongodb+srv://MyUser:<password>@cluster0.5n0m4.mongodb.net/?retryWrites=true&w=majority")
 
-// E - Express
+// app.post('/api/register', async (req, res) => {
+// 	console.log(req.body)
+// 	try {
+// 		const newPassword = await hash(req.body.password, 10)
+// 		await User.create({
+// 			name: req.body.name,
+// 			email: req.body.email,
+// 			password: newPassword,
+// 		}) 
+// 		res.json({ status: 'ok' })
+// 	} catch (err) {
+// 		res.json({ status: 'error', error: 'Duplicate email' })
+// 	}
+// })
 
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const mongoose = require('mongoose')
-const User = require('./models/user.model')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+// app.post('/api/login', async (req, res) => {
+// 	const user = await User.findOne({
+// 		email: req.body.email,
+// 	})
 
-app.use(cors())
-app.use(express.json())
+// 	if (!user) {
+// 		return { status: 'error', error: 'Invalid login' }
+// 	}
 
-mongoose.connect('[PlaceHolder]')
+// 	const isPasswordValid = await compare(
+// 		req.body.password,
+// 		user.password
+// 	)
 
-app.post('/api/register', async (req, res) => {
-	console.log(req.body)
-	try {
-		const newPassword = await bcrypt.hash(req.body.password, 10)
-		await User.create({
-			name: req.body.name,
-			email: req.body.email,
-			password: newPassword,
-		})
-		res.json({ status: 'ok' })
-	} catch (err) {
-		res.json({ status: 'error', error: 'Duplicate email' })
-	}
-})
+// 	if (isPasswordValid) {
+// 		const token = sign(
+// 			{
+// 				name: user.name,
+// 				email: user.email,
+// 			},
+// 			'secret123'
+// 		)
 
-app.post('/api/login', async (req, res) => {
-	const user = await User.findOne({
-		email: req.body.email,
-	})
+// 		return res.json({ status: 'ok', user: token })
+// 	} else {
+// 		return res.json({ status: 'error', user: false })
+// 	}
+// })
 
-	if (!user) {
-		return { status: 'error', error: 'Invalid login' }
-	}
+// app.get('/api/quote', async (req, res) => {
+// 	const token = req.headers['x-access-token']
 
-	const isPasswordValid = await bcrypt.compare(
-		req.body.password,
-		user.password
-	)
+// 	try {
+// 		const decoded = verify(token, 'secret123')
+// 		const email = decoded.email
+// 		const user = await User.findOne({ email: email })
 
-	if (isPasswordValid) {
-		const token = jwt.sign(
-			{
-				name: user.name,
-				email: user.email,
-			},
-			'secret123'
-		)
+// 		return res.json({ status: 'ok', quote: user.quote })
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.json({ status: 'error', error: 'invalid token' })
+// 	}
+// })
 
-		return res.json({ status: 'ok', user: token })
-	} else {
-		return res.json({ status: 'error', user: false })
-	}
-})
+// app.post('/api/quote', async (req, res) => {
+// 	const token = req.headers['x-access-token']
 
-app.get('/api/quote', async (req, res) => {
-	const token = req.headers['x-access-token']
+// 	try {
+// 		const decoded = verify(token, 'secret123')
+// 		const email = decoded.email
+// 		await User.updateOne(
+// 			{ email: email },
+// 			{ $set: { quote: req.body.quote } }
+// 		)
 
-	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const email = decoded.email
-		const user = await User.findOne({ email: email })
+// 		return res.json({ status: 'ok' })
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.json({ status: 'error', error: 'invalid token' })
+// 	}
+// })
 
-		return res.json({ status: 'ok', quote: user.quote })
-	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: 'invalid token' })
-	}
-})
-
-app.post('/api/quote', async (req, res) => {
-	const token = req.headers['x-access-token']
-
-	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const email = decoded.email
-		await User.updateOne(
-			{ email: email },
-			{ $set: { quote: req.body.quote } }
-		)
-
-		return res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: 'invalid token' })
-	}
-})
-
-app.listen(1337, () => {
-	console.log('Server started on 1337')
-})
+// app.listen(1337, () => {
+// 	console.log('Server started on 1337')
+// })
+document.write("Please wait for upcoming developement")
+console.log("Hello World!")
